@@ -11,7 +11,7 @@ mongoClient.connect(url,function (err,db) {
         let user = createUser(req.body);
         db.collection('users').findOne({email: user.email},(err,result)=>{
             console.log(result)
-            if(result === []){
+            if(result === null){
                 db.collection('users').insertOne(createUser(req.body), (err, result) => {
                     if(err){
                         res.send({success: false, err: err})
@@ -25,7 +25,8 @@ mongoClient.connect(url,function (err,db) {
     });
 
     route.get('/getUser', (req, res) => {
-        db.collection('users').find({uid: req.params.uid}).toArray((err, results) => {
+        console.log(req.query);
+        db.collection('users').find({uid: req.query.uid}).toArray((err, results) => {
             if (err) {
                 res.send({success: false, err: err})
             }
