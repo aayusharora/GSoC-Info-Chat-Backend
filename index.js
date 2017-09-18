@@ -7,6 +7,7 @@ let io = require('socket.io')(server);
 let port = process.env.PORT || 3000;
 let bodyParser = require('body-parser');
 let mongoClient = require('mongodb').MongoClient;
+let route = require('./routing');
 
 const url = "mongodb://localhost:27017/gsocidb";
 
@@ -184,6 +185,8 @@ app.post('/delete/chatroom', (req, res) => {
         res.status(404).json({error: "Does not exist"});
     }
 });
+
+app.use('/users',route);
 
 server.listen(port, function () {
     console.log('Server listening at port %d', port);
